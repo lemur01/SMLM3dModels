@@ -47,16 +47,13 @@ pb$y<-pb$y-min(pb$y)
 fracx<-max(pb$x)/delta
 fracy<-max(pb$y)/delta
 
-# if sopped with error modify ere
-for (k in 11:(fracx-1)) # 0 instead of 11
+for (k in 0:(fracx-1)) 
 {
-for (m in 11:(fracy-1)) # 0 instead of 11
+for (m in 0:(fracy-1)) 
 {
-  print("k")
-	print(k)
-	print("m")
-	print(m)
-
+	print(paste(c("k=", k), collapse = " "))
+  	print(paste(c("m=", m), collapse = " "))
+  
 
 	id <- (pb$x > k*delta)&(pb$x <= (k+1)*delta)&(pb$y > m*delta)&(pb$y <= (m+1)*delta)
 
@@ -67,8 +64,8 @@ for (m in 11:(fracy-1)) # 0 instead of 11
 
 	png(paste(resdr,'/Plot2d_', k, '_', m, '_',dataname, '.png', sep=""))
 	plot(PClean$noise$data$x,PClean$noise$data$y)
-  points(PClean$feature$data$x,PClean$feature$data$y,col = 19)
-  dev.off()
+	points(PClean$feature$data$x,PClean$feature$data$y,col = 19)
+  	dev.off()
 	
 	Pmono<-unmark(PClean$noise)
 	png(paste(resdr,'/Clean', k, '_', m, '_',dataname, '.png', sep=""))
@@ -78,54 +75,52 @@ for (m in 11:(fracy-1)) # 0 instead of 11
 	# monomers
 	monopc <- pcf3est(Pmono)
 
-  emonoCSR<-envelope(Pmono, fun=K3est, nsim=nrsim,savefuns = TRUE)
-  resmonoCSR <- rank_envelope(emonoCSR)
-  png(paste(resdr,'/monoCSR',k, '_', m, '_', dataname, '.png', sep=""))
-  plot(resmonoCSR)
-  dev.off()
+  	emonoCSR<-envelope(Pmono, fun=K3est, nsim=nrsim,savefuns = TRUE)
+  	resmonoCSR <- rank_envelope(emonoCSR)
+  	png(paste(resdr,'/monoCSR',k, '_', m, '_', dataname, '.png', sep=""))
+  	plot(resmonoCSR)
+  	dev.off()
   
-  s<-100
-  prm<-NonIter1GFit(monopc$r, monopc$trans)
-  cmono<-mincontrast(monopc, gThomas3d, c(prm$kappa,prm$s*prm$s),ctrl=list(q = 1/4, p = 2, rmin=NULL, rmax=1000))
+  	s<-100
+  	prm<-NonIter1GFit(monopc$r, monopc$trans)
+  	cmono<-mincontrast(monopc, gThomas3d, c(prm$kappa,prm$s*prm$s),ctrl=list(q = 1/4, p = 2, rmin=NULL, rmax=1000))
  
- #cmono<-mincontrast(monopc, gThomas3d, c(1/((4*pi*s*s)^(3/2)*(monopc$trans[2]-1)),s*s),ctrl=list(q = 1/4, p = 2, rmin=NULL, rmax=1000))
+ 	#cmono<-mincontrast(monopc, gThomas3d, c(1/((4*pi*s*s)^(3/2)*(monopc$trans[2]-1)),s*s),ctrl=list(q = 1/4, p = 2, rmin=NULL, rmax=1000))
  
- npmono<-dim(Pmono$data)
- mumono <-npmono[1]/volume(Pmono$domain)/cmono$par[1]
- rho0<-cmono$par[1]
- if (rho0*volume(w)>1000){
-   png(paste(resdr,'/Fitcmono_',k, '_', m, '_', dataname, '.png', sep=""))
-   plot(cmono)
-   dev.off()
-   presmonoT3 <- -1
-   pintresmonoT3<-c(-1, -1)
-   
- }
- else{
-  T3d <- lapply(seq(1,nrsim), simThomas3d, cmono$par[1], mumono,sqrt(abs(cmono$par[2])), c( k*delta,(k+1)*delta, m*delta,(m+1)*delta,min(pb$z[id]),max(pb$z[id])) ) 
-  monoT3d<-envelope(Pmono,fun=K3est, nsim = nrsim,simulate = T3d, savefuns = TRUE)
-  resmonoT3 <- rank_envelope(monoT3d)
-  presmonoT3 <- resmonoT3$p
-  pintresmonoT3<-resmonoT3$p_interval
+ 	npmono<-dim(Pmono$data)
+ 	mumono <-npmono[1]/volume(Pmono$domain)/cmono$par[1]
+ 	rho0<-cmono$par[1]
+ 	if (rho0*volume(w)>1000){
+   		png(paste(resdr,'/Fitcmono_',k, '_', m, '_', dataname, '.png', sep=""))
+   		plot(cmono)
+   		dev.off()
+   		presmonoT3 <- -1
+   		pintresmonoT3<-c(-1, -1)
+ 	}
+ 	else{
+  		T3d <- lapply(seq(1,nrsim), simThomas3d, cmono$par[1], mumono,sqrt(abs(cmono$par[2])), c( k*delta,(k+1)*delta, m*delta,(m+1)*delta,min(pb$z[id]),max(pb$z[id])) ) 
+  		monoT3d<-envelope(Pmono,fun=K3est, nsim = nrsim,simulate = T3d, savefuns = TRUE)
+  		resmonoT3 <- rank_envelope(monoT3d)
+  		presmonoT3 <- resmonoT3$p
+  		pintresmonoT3<-resmonoT3$p_interval
   
-  df1 <- data.frame(monoT3d)
-  write.table(df1,paste(resdr,'/emonoT3d_',k, '_', m, '_', dataname, '.csv', sep=""))
+  		df1 <- data.frame(monoT3d)
+  		write.table(df1,paste(resdr,'/emonoT3d_',k, '_', m, '_', dataname, '.csv', sep=""))
    
-  png(paste(resdr,'/monoT3_', k, '_', m, '_', dataname, '.png', sep=""))
-  plot(resmonoT3)
-  dev.off()
-  png(paste(resdr,'/Fitcmono_',k, '_', m, '_', dataname, '.png', sep=""))
-  plot(cmono)
-  dev.off()
- }
+  		png(paste(resdr,'/monoT3_', k, '_', m, '_', dataname, '.png', sep=""))
+  		plot(resmonoT3)
+  		dev.off()
+  		png(paste(resdr,'/Fitcmono_',k, '_', m, '_', dataname, '.png', sep=""))
+  		plot(cmono)
+  		dev.off()
+ 	}
  
  
 	#nanoclusters
 	Pnanocl<-unmark(PClean$feature)
 	clpc<- pcf3est(Pnanocl)
 	
-  print("nanoclusters")
-	
+  	print("nanoclusters")	
 	s1<-300
 	s2<-100
 	prm<-NonIter1GFit(clpc$r, clpc$trans)
@@ -158,7 +153,7 @@ for (m in 11:(fracy-1)) # 0 instead of 11
 	  png(paste(resdr,'/clT_',k, '_', m, '_', dataname, '.png', sep=""))
 	  plot(resclT3)
 	  dev.off()
-  }
+  	}
   
 	# double clusterThomas process model
 	c2Thomas<-mincontrast(clpc, gDoubleThomas3d,c(sqrt(prm$kappa),prm$s*prm$s,sqrt(prm$kappa/10),prm$s*prm$s*4),  ctrl=list(q = 1/4, p = 2, rmin=NULL, rmax=1000))
@@ -212,11 +207,6 @@ for (m in 11:(fracy-1)) # 0 instead of 11
 	
   }
 }
-
-#write.csv(c, file = paste(resdr,'/Params_', frac,'_',dataname,'.csv', sep=""))
-#output <- matrix(unlist(c), ncol = 11)
-#return(output)
-
 
 
 }

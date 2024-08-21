@@ -7,7 +7,7 @@ library(spptest)
 library(ggplot2)  
   
 
-source('D:/Projects/SMLM/Anoushka/DoubleCluster/Thomas3d.R')
+source('Thomas3d.R')
 
 nn = knn
 nrsim<-49
@@ -61,8 +61,8 @@ for (m in 0:(fracy))
 	
 	png(paste(resdr,'/Plot2d_', k, '_', m, '_',dataname, '.png', sep=""))
 	plot(PClean$noise$data$x,PClean$noise$data$y)
-  points(PClean$feature$data$x,PClean$feature$data$y,col = 19)
-  dev.off()
+  	points(PClean$feature$data$x,PClean$feature$data$y,col = 19)
+  	dev.off()
 	
 	Pmono<-unmark(PClean$noise)
 	png(paste(resdr,'/Clean', k, '_', m, '_',dataname, '.png', sep=""))
@@ -81,8 +81,8 @@ for (m in 0:(fracy))
 	df1 <- data.frame(clpc)
  	write.table(df1,paste(resdr,'/pccl_',k, '_', m, '_', dataname, '.csv', sep=""))
 
-  df2 <- data.frame(Pnanocl)
-  write.table(df2,paste(resdr,'/Nanocl_',k, '_', m, '_', dataname, '.csv', sep=""))
+  	df2 <- data.frame(Pnanocl)
+  	write.table(df2,paste(resdr,'/Nanocl_',k, '_', m, '_', dataname, '.csv', sep=""))
   }
 }
 

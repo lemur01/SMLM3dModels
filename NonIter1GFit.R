@@ -1,5 +1,7 @@
 NonIter1GFit<-function(x,y){
 
+# non-iterative estimation, ised for parameter initialisation
+
 x <- x[!is.nan(y)]; y <- y[!is.nan(y)];
 x <- x[is.finite(y)]; y <- y[is.finite(y)];
 x <- x^2;
