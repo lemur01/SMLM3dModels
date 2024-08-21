@@ -9,6 +9,6 @@ AnalyseExperiment:
 - computes the parameters of the above models, based on pair correlation function fits.
 The R scripts allows the simulation of 3D Thomas and double Thomas point processes.
 
-Dependencies: spatstat. scatterplot3d, spptest 
+Dependencies: spatstat, scatterplot3d, spptest 
 
 
