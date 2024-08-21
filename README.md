@@ -1,7 +1,8 @@
-# 3D Single Molecule Localisation Microscopy Data Analysis applied to 3D PSD95 localisations
+# 3D Single Molecule Localisation Microscopy Data Analysis 
+## applied to 3D PSD95 localisations
 
 
-<img src=CleanedData.png width="300" height="300"><img src=Sample.png width="300" height="300">
+<img src=Sample.png width="500" height="300">
 
 AnalyseExperiment:
 - separates the localisations in a monomer and nanocluster component
