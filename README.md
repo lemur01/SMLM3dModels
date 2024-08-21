@@ -1,7 +1,7 @@
 # 3D Single Molecule Localisation Microscopy Data Analysis 
 ## applied to 3D PSD95 localisations
 
-<img src=CleanedData.png width="600" height="300">
+<img src=CleanedData.png width="400" height="300">
 <img src=Sample.png width="600" height="300">
 
 AnalyseExperiment:
