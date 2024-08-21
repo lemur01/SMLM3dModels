@@ -1,6 +1,8 @@
 # 3D Single Molecule Localisation Microscopy Data Analysis 
 ## Applied to 3D PSD95 localisations
 
+[![DOI](https://zenodo.org/badge/845670050.svg)](https://zenodo.org/doi/10.5281/zenodo.13357245)
+
 <img src=CleanedData.png width="400" height="300"><img src=Sample.png width="550" height="300">
 
 AnalyseExperiment:
