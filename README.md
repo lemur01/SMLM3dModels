@@ -2,7 +2,7 @@
 ## applied to 3D PSD95 localisations
 
 
-<img src=Sample.png width="500" height="300">
+<img src=Sample.png width="900" height="300">
 
 AnalyseExperiment:
 - separates the localisations in a monomer and nanocluster component
